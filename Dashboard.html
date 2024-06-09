@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Transaction Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+      flex-direction: column;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .nav-buttons button {
+      margin: 0 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007BFF;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #0056b3;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 1200px;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .summary {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background-color: #e0e0e0;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+      flex: 1;
+      margin: 0 10px;
+    }
+
+    .transactions ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .transactions li {
+      background-color: #e0e0e0;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+    }
+
+    .chart {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-buttons">
+    <button onclick="location.href='addtransaction.html'">Add Transaction</button>
+    <button onclick="location.href='report.html'">Report</button>
+  </div>
+  <div class="container">
+    <h1>Transaction Dashboard</h1>
+    <div class="summary">
+      <div class="card" id="total-income">
+        <h2>Total Income</h2>
+        <p>$0</p>
+      </div>
+      <div class="card" id="total-expense">
+        <h2>Total Expense</h2>
+        <p>$0</p>
+      </div>
+      <div class="card" id="balance">
+        <h2>Balance</h2>
+        <p>$0</p>
+      </div>
+    </div>
+    <div class="transactions">
+      <h2>Transactions</h2>
+      <ul id="transaction-list"></ul>
+    </div>
+    <div class="chart">
+      <h2>Income vs Expenses</h2>
+      <canvas id="transaction-chart"></canvas>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      fetchTransactions();
+    });
+
+    function fetchTransactions() {
+      fetch('http://localhost:5000/transactions') // Adjust the port number if necessary
+        .then(response => response.json())
+        .then(data => {
+          displayTransactions(data);
+          calculateSummary(data);
+          renderChart(data);
+        })
+        .catch(error => console.error('Error fetching transactions:', error));
+    }
+
+    function displayTransactions(transactions) {
+      const transactionList = document.getElementById('transaction-list');
+      transactionList.innerHTML = '';
+
+      transactions.forEach(transaction => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${transaction.type} - $${transaction.amount} - ${transaction.description} - ${new Date(transaction.created_at).toLocaleDateString()}`;
+        transactionList.appendChild(listItem);
+      });
+    }
+
+    function calculateSummary(transactions) {
+      let income = 0;
+      let expense = 0;
+
+      transactions.forEach(transaction => {
+        if (transaction.type === 'Income') {
+          income += transaction.amount;
+        } else if (transaction.type === 'Expense') {
+          expense += transaction.amount;
+        }
+      });
+
+      document.getElementById('total-income').querySelector('p').textContent = `$${income}`;
+      document.getElementById('total-expense').querySelector('p').textContent = `$${expense}`;
+      document.getElementById('balance').querySelector('p').textContent = `$${income - expense}`;
+    }
+
+    function renderChart(transactions) {
+      const ctx = document.getElementById('transaction-chart').getContext('2d');
+      const dates = transactions.map(transaction => new Date(transaction.created_at).toLocaleDateString());
+      const amounts = transactions.map(transaction => transaction.amount);
+
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: dates,
+          datasets: [{
+            label: 'Transactions',
+            data: amounts,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+            fill: false
+          }]
+        },
+        options: {
+          scales: {
+            xAxes: [{
+              type: 'time',
+              time: {
+                unit: 'day'
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>

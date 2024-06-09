@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LOGIN</title>
+    <style>
+        body {
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #000;
+            border-radius: 8px;
+            background-color: #fff;
+            font-size: 25px;
+        }
+
+        .input-label {
+            position: absolute;
+            color: #999;
+            top: 30%;
+            left: 10px;
+            transition: top 0.6s, font-size 0.6s;
+            font-size: 25px;
+        }
+
+        .input-field:focus + .input-label,
+        .input-field:not(:placeholder-shown) + .input-label {
+            top: 0.2%;
+            font-size: 12px;
+            color: #000;
+            padding: 0.5px;
+            background-color: #eafcff;
+            border-radius: 3px;
+            font-weight: 700;
+        }
+
+        form {
+            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.2);
+            width: 350px;
+            height: 140px;
+            padding: 100px 50px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        button:hover {
+            display: block;
+            filter: drop-shadow(0 0 10px #fffdef);
+            padding: 3px;
+        }
+    </style>
+</head>
+<body background="images/welcome.jpg">
+    <form id="LoginPage" action="dashboard.html" method="GET">
+        <h1>WELCOME!</h1>
+        <div class="input-container">
+            <input type="text" id="username" class="input-field" placeholder=" " required>
+            <label for="username" class="input-label">USERNAME</label>
+        </div>
+        <div class="input-container">
+            <input type="password" id="password" class="input-field" placeholder=" " required>
+            <label for="password" class="input-label">PASSWORD</label>
+        </div>
+        <div class="input-container">
+            <button type="submit" class="stars">Submit</button>
+        </div>
+    </form>
+</body>
+</html>

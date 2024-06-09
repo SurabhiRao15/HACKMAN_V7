@@ -1,0 +1,135 @@
+{
+  "transactions": [
+    {
+      "id": "1",
+      "amount": 100,
+      "type": "Expense",
+      "description": "Restaurant",
+      "created_at": "2023-03-15T23:00:00"
+    },
+    {
+      "id": "2",
+      "amount": 159,
+      "type": "Expense",
+      "description": "Gas",
+      "created_at": "2023-03-15T23:00:00"
+    },
+    {
+      "id": "3",
+      "amount": 500,
+      "type": "Income",
+      "description": "Salary",
+      "created_at": "2023-03-15T23:00:00"
+    },
+    {
+      "id": "4",
+      "amount": 99,
+      "type": "Expense",
+      "description": "Rent",
+      "created_at": "2024-05-10T23:00:00"
+    },
+    {
+      "type": "Expense",
+      "amount": 900,
+      "description": "Paying for stuff...",
+      "created_at": "2024-01-23T00:00:00",
+      "id": "5"
+    },
+    {
+      "type": "Income",
+      "amount": 6771,
+      "description": "Paying for stuff...",
+      "created_at": "2023-11-17T00:00:00",
+      "id": "7"
+    },
+    {
+      "type": "Income",
+      "amount": 343,
+      "description": "Paying for stuff...",
+      "created_at": "2024-01-23T00:00:00",
+      "id": "8"
+    },
+    {
+      "type": "Income",
+      "amount": 1,
+      "description": "Salary",
+      "created_at": "2024-01-23T00:00:00",
+      "id": "10"
+    },
+    {
+      "type": "Income",
+      "amount": 1,
+      "description": "Salary",
+      "created_at": "2024-01-23T00:00:00",
+      "id": "11"
+    },
+    {
+      "id": "fe10",
+      "type": "Income",
+      "amount": 100,
+      "description": "Hi",
+      "created_at": "2024-05-11T00:00:00"
+    },
+    {
+      "id": "8eb1",
+      "type": "Income",
+      "amount": 100,
+      "description": "Hi",
+      "created_at": "2024-05-11T00:00:00"
+    },
+    {
+      "id": "6f97",
+      "type": "Income",
+      "amount": 100,
+      "description": "Hi",
+      "created_at": "2024-05-11T00:00:00"
+    },
+    {
+      "id": "40bd",
+      "type": "Income",
+      "amount": 100,
+      "description": "Hi",
+      "created_at": "2024-05-11T00:00:00"
+    },
+    {
+      "id": "5898",
+      "type": "Income",
+      "amount": 100000,
+      "description": "Ujwal",
+      "created_at": "2024-05-11T00:00:00"
+    },
+    {
+      "id": "3345",
+      "type": "Income",
+      "amount": 10000000,
+      "description": "Ujju",
+      "created_at": "2024-05-11T00:00:00"
+    },
+    {
+      "id": "2300",
+      "type": "Income",
+      "amount": 10000000,
+      "description": "Ujju",
+      "created_at": "2024-05-11T00:00:00"
+    },
+    {
+      "id": "d3eb51f3-683e-4ad5-ab1b-3560d9e52d42",
+      "amount": "300",
+      "type": "Expense",
+      "description": "Ujwal",
+      "created_at": "2024-06-07T23:02:46.916Z"
+    }
+  ],
+  "trends": [
+    {
+      "id": "Income",
+      "amount": 4000,
+      "threshin": 100
+    },
+    {
+      "id": "Expense",
+      "amount": 4000,
+      "threshex":200
+    }
+  ]
+}

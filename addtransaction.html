@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Transaction Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-size: cover; 
+            background-repeat: no-repeat;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: 200px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        form {
+            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.2);
+            width: 350px;
+            height: auto;
+            padding: 100px 50px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body background="images/transaction.jpg">
+    
+    <form id="transactionForm">
+        <h1>Add Transaction</h1>
+        <label for="amount">Amount:</label>
+        <input type="text" id="amount" name="amount" required>
+
+        <label for="type">Type:</label>
+        <input type="text" id="type" name="type" required>
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" required>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('transactionForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const amount = document.getElementById('amount').value;
+            const type = document.getElementById('type').value;
+            const description = document.getElementById('description').value;
+
+            fetch('http://localhost:5000/addtransactions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    amount: amount,
+                    type: type,
+                    description: description
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                window.location.href = 'dashboard.html'; // Redirect to the dashboard
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

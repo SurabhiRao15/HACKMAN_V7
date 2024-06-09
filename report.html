@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense and Income Tracker</title>
+</head>
+<style>
+      body {
+            background-size: cover;
+            background-repeat: no-repeat;
+            font-size:large;
+        }
+        form {
+            backdrop-filter: blur(15px);
+            background: rgba(212, 70, 70, 0.2);
+            width: 350px;
+            height: 210px;
+            padding: 100px 50px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+</style>
+<body background="images/glass.jpeg">
+    <form>
+    <h1>Expense and Income Tracker</h1>
+    <div>
+        <p>Total Expense: <span id="total-expense"></span></p>
+        <p>Total Income: <span id="total-income"></span></p>
+        <p>User Max Threshold on Expense: <span id="threshold-expense"></span></p>
+        <p>User Min Threshold on Income: <span id="threshold-income"></span></p>
+        <p id="warning-expense" style="color: red;"></p>
+        <p id="warning-income" style="color: red;"></p>
+    </div>
+    </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const transactionsResponse = await fetch('http://localhost:3000/transactions');
+        const transactions = await transactionsResponse.json();
+        
+        const trendsResponse = await fetch('http://localhost:3000/trends');
+        const trends = await trendsResponse.json();
+        
+        let totalIncome = 0;
+        let totalExpense = 0;
+        
+        transactions.forEach(transaction => {
+            if (transaction.type === 'Income') {
+                totalIncome += transaction.amount;
+            } else if (transaction.type === 'Expense') {
+                totalExpense += transaction.amount;
+            }
+        });
+        
+        const incomeTrend = trends.find(trend => trend.id === 'Income');
+        const expenseTrend = trends.find(trend => trend.id === 'Expense');
+        
+        const thresholdIncome = incomeTrend.threshin;
+        const thresholdExpense = expenseTrend.threshex;
+        
+        document.getElementById('total-income').textContent = totalIncome;
+        document.getElementById('total-expense').textContent = totalExpense;
+        document.getElementById('threshold-income').textContent = thresholdIncome;
+        document.getElementById('threshold-expense').textContent = thresholdExpense;
+        
+        if (totalExpense > thresholdExpense) {
+            document.getElementById('warning-expense').textContent = 'Warning: Spending more';
+        } else {
+            document.getElementById('warning-expense').textContent = '';
+        }
+        
+        if (totalIncome < thresholdIncome) {
+            document.getElementById('warning-income').textContent = 'Warning: Get more income';
+        } else {
+            document.getElementById('warning-income').textContent = '';
+        }
+        
+        if (incomeTrend.amount !== totalIncome || expenseTrend.amount !== totalExpense) {
+            const updatedTrends = [
+                { id: 'Income', amount: totalIncome, threshin: thresholdIncome },
+                { id: 'Expense', amount: totalExpense, threshex: thresholdExpense }
+            ];
+            
+            await fetch('http://localhost:3000/trends', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedTrends)
+            });
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
+    </script>
+</body>
+</html>
